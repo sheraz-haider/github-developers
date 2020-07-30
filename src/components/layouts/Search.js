@@ -1,16 +1,15 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 class Search extends Component {
   state = {
-    showError: false
+    showError: false,
   };
 
   static propTypes = {
-    showError: PropTypes.bool.isRequired,
     searchUsers: PropTypes.func.isRequired,
     clearUsers: PropTypes.func.isRequired,
-  }
+  };
 
   onChange = (e) => {
     this.setState({
@@ -20,14 +19,14 @@ class Search extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if(this.state.searchText.trim() === '') {
+    if (this.state.searchText.trim() === "") {
       this.setState({
-        showError: true
+        showError: true,
       });
       return false;
     }
     this.setState({
-      showError: false
+      showError: false,
     });
     this.props.searchUsers(this.state.searchText);
   };
@@ -35,8 +34,8 @@ class Search extends Component {
   onClearClick = (e) => {
     e.preventDefault();
     this.setState({
-      searchText: '',
-      showError: false
+      searchText: "",
+      showError: false,
     });
     this.props.clearUsers();
   };
@@ -46,12 +45,12 @@ class Search extends Component {
       <div>
         <form className="form" onSubmit={this.onSubmit}>
           <input
-            className={(this.state.showError) ? 'error' : '' }
+            className={this.state.showError ? "error" : ""}
             type="text"
             name="searchText"
             id="searchText"
             required
-            style={(this.state.showError) ? errorStyles : {}}
+            style={this.state.showError ? errorStyles : {}}
             value={this.state.searchText}
             onChange={this.onChange}
           />
@@ -61,7 +60,10 @@ class Search extends Component {
             className="btn btn-dark btn-block"
           />
           {this.props.showClear && (
-            <button className="btn btn-light btn-block" onClick={this.onClearClick}>
+            <button
+              className="btn btn-light btn-block"
+              onClick={this.onClearClick}
+            >
               Clear
             </button>
           )}

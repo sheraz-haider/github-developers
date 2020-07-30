@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layouts/Navbar";
 import Users from "./components/users/Users";
 import Search from "./components/layouts/Search";
+import About from "./components/pages/About";
 import axios from "axios";
 import "./App.css";
 
@@ -51,23 +53,35 @@ class App extends Component {
 
   clearUsers = () => {
     this.setState({
-      users: []
+      users: [],
     });
-  }
+  };
 
   render() {
     return (
-      <div className="App">
-        <Navbar />
-        <div className="container">
-          <Search 
-          searchUsers={this.searchUsers} 
-          showClear={this.state.users.length > 0 ? true : false }
-          clearUsers={this.clearUsers} 
-          />
-          <Users isLoading={this.state.isLoading} users={this.state.users} />
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div className="container">
+            <Switch>
+              <Route exact path="/">
+                <Search
+                  searchUsers={this.searchUsers}
+                  showClear={this.state.users.length > 0 ? true : false}
+                  clearUsers={this.clearUsers}
+                />
+                <Users
+                  isLoading={this.state.isLoading}
+                  users={this.state.users}
+                />
+              </Route>
+              <Route exact path="/about">
+                <About />
+              </Route>
+            </Switch>
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
