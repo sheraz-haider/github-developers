@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 class Search extends Component {
   state = {
     showError: false,
+    searchText: "",
   };
 
   static propTypes = {
