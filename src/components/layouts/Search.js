@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 class Search extends Component {
   state = {
     showError: false,
-    searchText: "",
+    searchText: this.props.search,
   };
 
   static propTypes = {
     searchUsers: PropTypes.func.isRequired,
     clearUsers: PropTypes.func.isRequired,
+    search: PropTypes.string.isRequired,
   };
 
   onChange = (e) => {
@@ -50,7 +51,6 @@ class Search extends Component {
             type="text"
             name="searchText"
             id="searchText"
-            required
             style={this.state.showError ? errorStyles : {}}
             value={this.state.searchText}
             onChange={this.onChange}

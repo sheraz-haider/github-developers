@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class UserItem extends Component {
   static propTypes = {
@@ -7,7 +8,7 @@ class UserItem extends Component {
   };
 
   render() {
-    const { login, avatar_url, html_url } = this.props.user;
+    const { login, avatar_url } = this.props.user;
 
     return (
       <div className="card text-center">
@@ -19,9 +20,9 @@ class UserItem extends Component {
         />
         <h3>{login}</h3>
         <div>
-          <a href={html_url} className="btn btn-dark btn-sm my-1">
+          <Link to={'user/' + login } className="btn btn-dark btn-sm my-1">
             More
-          </a>
+          </Link>
         </div>
       </div>
     );
