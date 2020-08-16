@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import RepoItem from "./RepoItem";
 
-const Repos = (props) => {
+const Repos = ({ repos }) => {
   return (
     <Fragment>
-      {props.repos.map((repo) => (
+      {repos.map((repo) => (
         <RepoItem repo={repo} key={repo.id} />
       ))}
     </Fragment>

@@ -1,78 +1,62 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-class Search extends Component {
-  state = {
-    showError: false,
-    searchText: this.props.search,
-  };
+const Search = (props) => {
+  const [showError, setShowError] = useState(false);
+  const [searchText, setSearchText] = useState(props.search);
 
-  static propTypes = {
-    searchUsers: PropTypes.func.isRequired,
-    clearUsers: PropTypes.func.isRequired,
-    search: PropTypes.string.isRequired,
-  };
+  const onChange = (e) => setSearchText(e.target.value);
 
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.searchText.trim() === "") {
-      this.setState({
-        showError: true,
-      });
+    if (searchText.trim() === "") {
+      setShowError(true);
       return false;
     }
-    this.setState({
-      showError: false,
-    });
-    this.props.searchUsers(this.state.searchText);
+    setShowError(false);
+    props.searchUsers(searchText);
   };
 
-  onClearClick = (e) => {
+  const onClearClick = (e) => {
     e.preventDefault();
-    this.setState({
-      searchText: "",
-      showError: false,
-    });
-    this.props.clearUsers();
+    setSearchText("");
+    setShowError(false);
+    props.clearUsers();
   };
 
-  render() {
-    return (
-      <div>
-        <form className="form" onSubmit={this.onSubmit}>
-          <input
-            className={this.state.showError ? "error" : ""}
-            type="text"
-            name="searchText"
-            id="searchText"
-            style={this.state.showError ? errorStyles : {}}
-            value={this.state.searchText}
-            onChange={this.onChange}
-          />
-          <input
-            type="submit"
-            value="Seacrh"
-            className="btn btn-dark btn-block"
-          />
-          {this.props.showClear && (
-            <button
-              className="btn btn-light btn-block"
-              onClick={this.onClearClick}
-            >
-              Clear
-            </button>
-          )}
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form className="form" onSubmit={onSubmit}>
+        <input
+          className={showError ? "error" : ""}
+          type="text"
+          name="searchText"
+          id="searchText"
+          style={showError ? errorStyles : {}}
+          value={searchText}
+          onChange={onChange}
+        />
+        <input
+          type="submit"
+          value="Seacrh"
+          className="btn btn-dark btn-block"
+        />
+        {props.showClear && (
+          <button className="btn btn-light btn-block" onClick={onClearClick}>
+            Clear
+          </button>
+        )}
+      </form>
+    </div>
+  );
+};
+
+Search.propTypes = {
+  searchUsers: PropTypes.func.isRequired,
+  clearUsers: PropTypes.func.isRequired,
+  search: PropTypes.string.isRequired,
+  showClear: PropTypes.bool.isRequired,
+};
 
 const errorStyles = {
   border: "1px solid red",
