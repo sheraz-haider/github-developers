@@ -1,14 +1,22 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, useEffect, useContext } from "react";
+import GithubContext from "../../context/gitbub/GithubContext";
 import Spinner from "../layouts/Spinner";
 import { Link } from "react-router-dom";
 import Repos from "./Repos";
 
 const SingleUser = (props) => {
+  const {
+    user,
+    repos,
+    getSingleUser,
+    getUserRepos,
+    isLoading,
+  } = useContext(GithubContext);
+
   useEffect(() => {
     const username = props.match.params.username;
-    props.getSingleUser(username);
-    props.getUserRepos(username);
+    getSingleUser(username);
+    getUserRepos(username);
     // eslint-disable-next-line
   }, []);
 
@@ -26,9 +34,9 @@ const SingleUser = (props) => {
     public_gists,
     hireable,
     company,
-  } = props.user;
+  } = user;
 
-  if (props.loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <div>
@@ -95,16 +103,9 @@ const SingleUser = (props) => {
         <div className="badge badge-light">Public Repos: {public_repos}</div>
         <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
-      <Repos repos={props.repos} />
+      <Repos repos={repos} />
     </div>
   );
-};
-
-SingleUser.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  getSingleUser: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-  repos: PropTypes.array.isRequired,
 };
 
 export default SingleUser;

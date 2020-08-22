@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useContext } from "react";
+import GithubContext from "../../context/gitbub/GithubContext";
 
-const Search = (props) => {
+const Search = () => {
+  const { users, search, searchUsers, setAllUsers } = useContext(GithubContext);
+
   const [showError, setShowError] = useState(false);
-  const [searchText, setSearchText] = useState(props.search);
-
-  const onChange = (e) => setSearchText(e.target.value);
+  const [searchText, setSearchText] = useState(search);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -14,14 +14,14 @@ const Search = (props) => {
       return false;
     }
     setShowError(false);
-    props.searchUsers(searchText);
+    searchUsers(searchText);
   };
 
   const onClearClick = (e) => {
     e.preventDefault();
     setSearchText("");
     setShowError(false);
-    props.clearUsers();
+    setAllUsers([]);
   };
 
   return (
@@ -34,14 +34,14 @@ const Search = (props) => {
           id="searchText"
           style={showError ? errorStyles : {}}
           value={searchText}
-          onChange={onChange}
+          onChange={(e) => setSearchText(e.target.value)}
         />
         <input
           type="submit"
           value="Seacrh"
           className="btn btn-dark btn-block"
         />
-        {props.showClear && (
+        {users.length > 0 && (
           <button className="btn btn-light btn-block" onClick={onClearClick}>
             Clear
           </button>
@@ -49,13 +49,6 @@ const Search = (props) => {
       </form>
     </div>
   );
-};
-
-Search.propTypes = {
-  searchUsers: PropTypes.func.isRequired,
-  clearUsers: PropTypes.func.isRequired,
-  search: PropTypes.string.isRequired,
-  showClear: PropTypes.bool.isRequired,
 };
 
 const errorStyles = {
