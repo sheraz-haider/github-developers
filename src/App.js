@@ -6,6 +6,7 @@ import Search from "./components/layouts/Search";
 import About from "./components/pages/About";
 import SingleUser from "./components/users/SingleUser";
 import GithubState from "./context/gitbub/GithubState";
+import NotFound from './components/pages/404'
 import "./App.css";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
               </Route>
               <Route exact path="/about" component={About} />
               <Route exact path="/user/:username" component={SingleUser} />
+              <Route path="*" component={NotFound} />
             </Switch>
           </div>
         </div>
